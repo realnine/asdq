@@ -24,10 +24,10 @@ SRCS =  $(SRC_DIR)/main.c \
 		$(SRC_DIR)/parse/parse_line.c \
 		$(SRC_DIR)/parse/parse_rgb.c \
 		$(SRC_DIR)/parse/parse_texture.c \
-		$(SRC_DIR)/parse/check_hole.c \
-		$(SRC_DIR)/parse/check_wall.c \
+		$(SRC_DIR)/parse/check_map_leaks.c \
 		$(SRC_DIR)/parse/check_worldmap.c \
 		$(SRC_DIR)/utils/utils.c \
+		$(SRC_DIR)/utils/utils2.c \
 		$(SRC_DIR)/utils/utils_lst.c \
 		$(SRC_DIR)/utils/utils_map.c \
 		$(SRC_DIR)/utils/mallocexit.c \
@@ -82,23 +82,21 @@ NO_COLOR = \033[0m
 all : $(NAME)
 
 $(NAME) : $(LIBFT) $(LIBMLX) $(OBJS) link
-	$(CC) $(CFLAGS) \
+	@$(CC) $(CFLAGS) \
 	-L $(LIBMLX_DIR) -lmlx -framework OpenGL -framework Appkit -lz \
 	-L $(LIBFT_DIR) -lft \
 	$(OBJS) -o $@
 
 
+$(SRC_DIR)/parse/%.o: $(SRC_DIR)/parse/%.c compile1
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIBMLX_DIR)
+
+$(SRC_DIR)/utils/%.o: $(SRC_DIR)/utils/%.c compile2
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIBMLX_DIR)
+
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.c compile0
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIBMLX_DIR)
 
-# $(SRC_DIR)/utils/%.o: $(SRC_DIR)/utils/%.c compile2
-# 	$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
-
-# $(SRC_DIR)/builtin/%.o: $(SRC_DIR)/builtin/%.c compile3
-# 	$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
-
-# $(SRC_DIR)/%.o: $(SRC_DIR)/%.c compile0
-# 	$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
 
 # libft compile
 $(LIBFT) :
@@ -112,7 +110,7 @@ $(LIBMLX) :
 	@echo "${FG_DGREY}"
 	@echo "Compiling minilibX . . ."
 	@echo "${NO_COLOR}"
-	@$(MAKE) -C $(LIBMLX_DIR) all
+	@$(MAKE) -C $(LIBMLX_DIR) all -s
 	@cp $(LIBMLX_DIR)/libmlx.dylib ./
 
 clean : cleanup

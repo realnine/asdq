@@ -6,7 +6,7 @@
 /*   By: mishin <mishin@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 11:40:00 by mishin            #+#    #+#             */
-/*   Updated: 2022/01/19 17:04:10 by mishin           ###   ########.fr       */
+/*   Updated: 2022/01/19 19:10:41 by mishin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@
 # include "get_next_line.h"
 # include "map.h"
 
-# define N		0
-# define S		1
-# define W		2
-# define E		3
+# define N		NO
+# define S		SO
+# define W		WE
+# define E		EA
 
 # define TOP	0
 # define BOTTOM	1
@@ -72,7 +72,6 @@ void	fill_by_texture(t_param *p, t_dda D, t_drawinfo draw);
 /* convert */
 int		imgs_to_textures(t_param *p);
 void	buffer_to_img(int **buffer, t_img img, int w, int h);
-void	set_pixel_color(t_img i, int x, int y, int color);
 
 /* event hook */
 int		keymap(int keycode, t_param *param);
@@ -87,8 +86,7 @@ void	parse_line(t_param *p, char *line);
 void	parse_texture(t_param *p, int type, char *line);
 void	parse_rgb(t_param *p, int type, char *line);
 void	check_worldmap(t_param *p, t_config *cfg);
-void	check_hole(t_param *p, int y);
-void	check_wall(t_param *p);
+void	check_map_leaks(t_param *p, int **map);
 
 int		get_next_line(int fd, char **line);
 t_lst	*lst_add_back(t_lst *node, char *content);
@@ -98,8 +96,10 @@ int		lst_get_len(t_lst *node);
 t_lst	*lst_get_tail(t_lst *node);
 
 /* utils */
+char	*strjoin2_(char *s1, char *s2, char *s3);
 char	**ft_split2(char *str, char *ch);
 void	err_exit(char *msg, t_param *p);
+void	err_exit_(char *msg, t_param *p);
 void	print_worldmap(t_param *p);
 int		check_val(int c);
 int		set_dir(t_param *p, int c);

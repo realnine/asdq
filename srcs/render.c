@@ -6,7 +6,7 @@
 /*   By: mishin <mishin@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 13:35:09 by mishin            #+#    #+#             */
-/*   Updated: 2022/01/19 17:24:09 by mishin           ###   ########.fr       */
+/*   Updated: 2022/01/19 19:14:01 by mishin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	render(t_param *p)
 {
 	mlx_clear_window(p->mlx, p->win);
 	raycasting(p);
-	buffer_to_img(p->buf3D, p->img3D, SCREENWIDTH, SCREENHEIGHT);		// @ comment out if method2
-	clear_buffer(p->buf3D, SCREENWIDTH, SCREENHEIGHT);					// @ comment out if method2
-	mlx_put_image_to_window(p->mlx, p->win, p->img3D.img, 0, 0);
+	buffer_to_img(p->buf3d, p->img3d, SCREENWIDTH, SCREENHEIGHT);
+	clear_buffer(p->buf3d, SCREENWIDTH, SCREENHEIGHT);
+	mlx_put_image_to_window(p->mlx, p->win, p->img3d.img, 0, 0);
 	return (0);
 }
 
@@ -48,7 +48,6 @@ void	draw_verline(t_param *p, t_drawinfo draw, int color, int mode)
 	while (++y <= drawend)
 	{
 		if ((0 <= y) && (y < SCREENHEIGHT))
-			p->buf3D[y][draw.x] = color;					// # method 1
-			// set_pixel_color(p->img3D, draw.x, y, color); // @ method 2
+			p->buf3d[y][draw.x] = color;
 	}
 }
